@@ -17,14 +17,14 @@ const winner = declareWinner(userInput, computerInput);
 
 function declareWinner(userInput, computerInput) {
   } if (userInput === 'rock' && computerInput === 'paper') {
-    console.log('You lose! Paper beats Rock');
+    console.log('You lose! Paper beats Rock.');
   } else if (userInput === 'paper' && computerInput === 'rock') {
-      console.log('You win! Paper beats Rock');
+      console.log('You win! Paper beats Rock.');
     
   } else if (userInput === 'rock' && computerInput === 'scissors') {
-    console.log('You win! Rock beats Scissors');
+    console.log('You win! Rock beats Scissors.');
   } else if (userInput === 'scissors' && computerInput === 'rock') {
-    console.log('You lose! Scissors beats Rock'); 
+    console.log('You lose! Scissors beats Rock.'); 
 
   } else if (userInput === 'rock' && computerInput === 'scissors') {
     console.log('You win! Rock beats Scissors');
