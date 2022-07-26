@@ -16,71 +16,113 @@ function computerPlay() {
 
 // game start
 
-function game () {
-    let roundPlayed = 0;
+function game() {
     let playerWin = 0;
     let computerWin = 0;
     let gameWinner = "";
 
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            playerSelection = button.className;
+            const computerSelection = computerPlay();
+            battleWinText.textContent = (playRound(playerSelection, computerSelection));
+            playerWinText.textContent = "Player wins totals to " + playerWin;
+            computerWinText.textContent = "Computer wins totals to " + computerWin;
+            endGame();
+        })
+    })
 
-    while (roundPlayed < 5) {
-        roundPlayed++;
-        const computerSelection = computerPlay();
-        playerSelection = prompt("Please type in your selection (Rock, Paper or Scissors)!")
-        console.log(playRound(capitalise(playerSelection), computerSelection)); 
-        console.log("Player wins totals to " + playerWin);
-        console.log("Computer wins totals to " + computerWin)
-
-        function playRound (firstLetterCap, computerSelection) {
-            let tie = "It's a Tie! You selected " + firstLetterCap + " and the computer selected " + computerSelection + ".";
-            let paperBeatRock = "You win! You selected " + firstLetterCap + " and the computer selected " + computerSelection + ".";
-            let scissorsBeatPaperLoss = "You lose! You selected " + firstLetterCap + " and the computer selected " + computerSelection + ".";
-            let paperBeatRockLoss = "You win! You selected " + firstLetterCap + " and the computer selected " + computerSelection + ".";
-            let rockBeatScissors = "You win! You selected " + firstLetterCap + " and the computer selected " + computerSelection + ".";
-            let rockbeatScissorsLoss = "You lose! You selected " + firstLetterCap + " and the computer selected " + computerSelection + ".";
-            let scissorsBEatPaper = "You win! You selected " + firstLetterCap + " and the computer selected " + computerSelection + ".";
+        function playRound(playerSelection, computerSelection) {
+            let tie = "It's a Tie! You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let paperBeatRock = "You Win!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let scissorsBeatPaperLoss = "You lose!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let paperBeatRockLoss = "You lose!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let rockBeatScissors = "You Win!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let rockBeatScissorsLoss = "You lose!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let scissorsBeatPaper = "You Win!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
         
-            if (firstLetterCap === computerSelection) {
-            return tie;
-            } else if ((firstLetterCap === "Paper") && (computerSelection === "Rock")) {
+            if (playerSelection === computerSelection) {
+                return tie;
+            } else if ((playerSelection === "Paper") && (computerSelection === "Rock")) {
                 playerWin++;
                 return paperBeatRock;
-            } else if ((firstLetterCap === "Paper") && (computerSelection === "Scissors")) {
+            } else if ((playerSelection === "Paper") && (computerSelection === "Scissors")) {
                 computerWin++;
                 return scissorsBeatPaperLoss;
-            } else if ((firstLetterCap === "Rock") && (computerSelection === "Paper")) {
+            } else if ((playerSelection === "Rock") && (computerSelection === "Paper")) {
                 computerWin++;
                 return paperBeatRockLoss;
-            } else if ((firstLetterCap === "Rock") && (computerSelection === "Scissors")) {
+            } else if ((playerSelection === "Rock") && (computerSelection === "Scissors")) {
                 playerWin++;
-                return paperBeatRock;
-            } else if ((firstLetterCap === "Scissors") && (computerSelection === "Rock")) {
-                computerWin++
-                return paperBeatRockLoss;
+                return rockBeatScissors;
+            } else if ((playerSelection === "Scissors") && (computerSelection === "Rock")) {
+                computerWin++;
+                return rockBeatScissorsLoss;
             } else {
                 playerWin++;
                 return scissorsBeatPaper;
             }
+        }
+
+        const container = document.querySelector("#container");
+        const resultsDiv = document.createElement("div");
+        resultsDiv.style.marginTop = "20px";
+        container.appendChild(resultsDiv);
+
+        const playerWinText = document.createElement("p");
+        playerWinText.style.color = "blue";
+        playerWinText.textContent = "Player wins totals to " + playerWin;
+        resultsDiv.appendChild(playerWinText);
+
+        const computerWinText = document.createElement("p");
+        computerWinText.style.color = "blue";
+        computerWinText.textContent = "Computer Win totals: " + computerWin;
+        resultsDiv.appendChild(computerWinText);
+
+        const battleWinText = document.createElement("p");
+        battleWinText.style.color = "black";
+        resultsDiv.appendChild(battleWinText);
+
+        const gameWinText = document.createElement("p");
+        gameWinText.style.color = "orange";
+        gameWinText.textContent = gameWinner;
+        resultsDiv.appendChild(gameWinText); 
         
+        function endGame() {
+            if (playerWin == 5) {
+                gameWinner = "YOU WIN!";
+                gameWinText.textContent = gameWinner;
+
+            document.getElementById("1").disabled = true;
+            document.getElementById("2").disabled = true;
+            document.getElementById("3").disabled = true;
+
+            const playAgainButton = document.createElement("button");
+            playAgainButton.textContent = "Play Again!";
+            resultsDiv.appendChild(playAgainButton);
+
+            playAgainButton.addEventListener('click', () => {
+                location.reload();
+                })
+        } else if (computerWin == 5) {
+            gameWinner = "COMPUTER WINS!";
+            gameWinText.textContent = gameWinner;
+
+            document.getElementById("1").disabled = true;
+            document.getElementById("2").disabled = true;
+            document.getElementById("3").disabled = true;
+            const playAgainButton = document.createElement("button");
+            playAgainButton.textContent = "Play Again!";
+            resultsDiv.appendChild(playAgainButton);
+            
+            //  if clicked, reload page
+            playAgainButton.addEventListener('click', () => {
+                location.reload();
+                })
+        }   
     }
-} 
-
-    if (playerWin > computerWin) {
-        gameWinner = "YOU WIN!";
-    } else if (playerWin === computerWin) {
-        gameWinner = "NO ONE, IT'S A TIE!";
-    } else {
-        gameWinner = "THE COMPUTER WINS!";
-    }
-
-    console.log(gameWinner);
-
 }
+    
 
-    function capitalise(playerSelection) {
-        let allowLowerCase = playerSelection.toLowerCase();
-        let firstLetterCap = allowLowerCase.charAt(0).toUpperCase() + allowLowerCase.slice(1);
-        return firstLetterCap;
-    }
-
-    game();
+game();
